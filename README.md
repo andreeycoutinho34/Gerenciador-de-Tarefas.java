@@ -2,6 +2,8 @@
 
 ## Descriçao
 Esse projeto e um simples gerenciador de tarefas  em Java que permite adicionar, listar e gerenciar taferas.
+Foi adicionado um arquivo SQL que cria o banco de dados GerenciadorTarefas.
+
 
 ## Funcionalidades
 - Adicionar tarefas
