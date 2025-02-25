@@ -13,6 +13,7 @@ public class GerenciadorTarefas {
         while (true) {
             System.out.println("\n1 - Adicionar tarefa");
             System.out.println("2 - Listar tarefas");
+            System.out.println("3 - Editar tarefa");
             System.out.println("3 - Sair");
             System.out.print("Escolha uma opção: ");
 
@@ -27,6 +28,9 @@ public class GerenciadorTarefas {
                     listarTarefas();
                     break;
                 case 3:
+                    editarTarefa(scanner);
+                    break;
+                case 4:
                     System.out.println("Saindo...");
                     scanner.close();
                     return;
@@ -48,5 +52,17 @@ public class GerenciadorTarefas {
         for (int i = 0; i < tarefas.size(); i++) {
             System.out.println((i + 1) + " - " + tarefas.get(i));
         }
+    }
+    
+    private static void editarTarefa(Scanner scanner){
+
+        System.out.println("Digite o numero da tarefa que deseja editar: ");
+        int numero = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Digite a nova descriçao da tarefa: ");
+        String descricao = scanner.nextLine();
+        tarefas.set(numero-1, descricao);
+        System.out.println("Tarefa editada com sucesso!");
+        
     }
 }
