@@ -14,11 +14,11 @@ public class GerenciadorTarefas {
             System.out.println("\n1 - Adicionar tarefa");
             System.out.println("2 - Listar tarefas");
             System.out.println("3 - Editar tarefa");
-            System.out.println("3 - Sair");
+            System.out.println("4 - Sair");
             System.out.print("Escolha uma opção: ");
 
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // Consumir a nova linha
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
