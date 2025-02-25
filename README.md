@@ -6,9 +6,9 @@ Esse projeto e um simples gerenciador de tarefas  em Java que permite adicionar,
 ## Funcionalidades
 - Adicionar tarefas
 - Listar tarefas
+- Editar tarefas
 
 ## Funcionalidades Futuras
-- Editar tarefas
 - Remover tarefas
 - Marcar tarefas como concluidas
 - filtrar tarefas por status
