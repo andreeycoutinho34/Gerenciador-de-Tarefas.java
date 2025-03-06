@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -6,8 +7,11 @@ public class GerenciadorTarefas {
 
     private static List<String> tarefas = new ArrayList<>();
     private static List<String> tarefasConcluidas = new ArrayList<>();
+    private static final String ARQUIVO_TAREFAS = "tarefas.txt";
+    private static final String ARQUIVO_TAREFAS_CONCLUIDAS = "tarefas_concluidas.txt";
 
     public static void main(String[] args) {
+        carregarTarefas();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -44,6 +48,7 @@ public class GerenciadorTarefas {
                     listarTarefasConcluidas();
                     break;
                 case 7:
+                    salvarTarefas();
                     System.out.println("Saindo...");
                     scanner.close();
                     return;
@@ -98,6 +103,62 @@ public class GerenciadorTarefas {
         System.out.println("\n--- Lista de Tarefas Concluídas ---");
         for (int i = 0; i < tarefasConcluidas.size(); i++) {
             System.out.println((i + 1) + " - " + tarefasConcluidas.get(i));
+        }
+    }
+
+    private static void salvarTarefas() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_TAREFAS))) {
+            for (String tarefa : tarefas) {
+                writer.println(tarefa);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar tarefas: " + e.getMessage());
+        }
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_TAREFAS_CONCLUIDAS))) {
+            for (String tarefa : tarefasConcluidas) {
+                writer.println(tarefa);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar tarefas concluídas: " + e.getMessage());
+        }
+    }
+
+    private static void carregarTarefas() {
+        File arquivoTarefas = new File(ARQUIVO_TAREFAS);
+        if (!arquivoTarefas.exists()) {
+            try {
+                arquivoTarefas.createNewFile();
+            } catch (IOException e) {
+                System.err.println("Erro ao criar o arquivo de tarefas: " + e.getMessage());
+            }
+        }
+
+        File arquivoTarefasConcluidas = new File(ARQUIVO_TAREFAS_CONCLUIDAS);
+        if (!arquivoTarefasConcluidas.exists()) {
+            try {
+                arquivoTarefasConcluidas.createNewFile();
+            } catch (IOException e) {
+                System.err.println("Erro ao criar o arquivo de tarefas concluídas: " + e.getMessage());
+            }
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_TAREFAS))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                tarefas.add(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao carregar tarefas: " + e.getMessage());
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_TAREFAS_CONCLUIDAS))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                tarefasConcluidas.add(linha);
+            }
+        } catch (IOException e) {
+            System.err.println("Erro ao carregar tarefas concluídas: " + e.getMessage());
         }
     }
 }
