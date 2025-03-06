@@ -9,9 +9,9 @@ Esse projeto e um simples gerenciador de tarefas  em Java que permite adicionar,
 - Editar tarefas.
 - Remover tarefas.
 - Marcar tarefas como concluidas.
+- Salvar e Carregar Tarefas de um Arquivo.
 
 ## Funcionalidades Futuras
-- Salvar e Carregar Tarefas de um Arquivo.
 - Adicionar Prioridade as tarefas.
 - Ordenar Tarefas por Prioridade.
 - Adicionar Data de Conclusao.
