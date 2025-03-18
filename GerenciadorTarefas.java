@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class GerenciadorTarefas {
 
-    private static List<String> tarefas = new ArrayList<>();
-    private static List<String> tarefasConcluidas = new ArrayList<>();
+    private static List<Tarefa> tarefas = new ArrayList<>();
+    private static List<Tarefa> tarefasConcluidas = new ArrayList<>();
     private static final String ARQUIVO_TAREFAS = "tarefas.txt";
     private static final String ARQUIVO_TAREFAS_CONCLUIDAS = "tarefas_concluidas.txt";
 
@@ -61,7 +61,10 @@ public class GerenciadorTarefas {
     private static void adicionarTarefa(Scanner scanner) {
         System.out.print("Digite a descrição da tarefa: ");
         String descricao = scanner.nextLine();
-        tarefas.add(descricao);
+        System.out.print("Digite a prioridade da tarefa (1-5): ");
+        int prioridade = scanner.nextInt();
+        scanner.nextLine();
+        tarefas.add(new Tarefa(descricao, prioridade));
         System.out.println("Tarefa adicionada com sucesso!");
     }
 
@@ -78,7 +81,10 @@ public class GerenciadorTarefas {
         scanner.nextLine();
         System.out.println("Digite a nova descrição da tarefa: ");
         String descricao = scanner.nextLine();
-        tarefas.set(numero - 1, descricao);
+        System.out.print("Digite a nova prioridade da tarefa (1-5): ");
+        int prioridade = scanner.nextInt();
+        scanner.nextLine();
+        tarefas.set(numero - 1, new Tarefa(descricao, prioridade));
         System.out.println("Tarefa editada com sucesso!");
     }
 
@@ -94,7 +100,7 @@ public class GerenciadorTarefas {
         System.out.println("Digite o número da tarefa que deseja marcar como concluída: ");
         int numero = scanner.nextInt();
         scanner.nextLine();
-        String tarefaConcluida = tarefas.remove(numero - 1);
+        Tarefa tarefaConcluida = tarefas.remove(numero - 1);
         tarefasConcluidas.add(tarefaConcluida);
         System.out.println("Tarefa marcada como concluída com sucesso!");
     }
@@ -108,16 +114,16 @@ public class GerenciadorTarefas {
 
     private static void salvarTarefas() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_TAREFAS))) {
-            for (String tarefa : tarefas) {
-                writer.println(tarefa);
+            for (Tarefa tarefa : tarefas) {
+                writer.println(tarefa.getDescricao() + ";" + tarefa.getPrioridade());
             }
         } catch (IOException e) {
             System.err.println("Erro ao salvar tarefas: " + e.getMessage());
         }
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(ARQUIVO_TAREFAS_CONCLUIDAS))) {
-            for (String tarefa : tarefasConcluidas) {
-                writer.println(tarefa);
+            for (Tarefa tarefa : tarefasConcluidas) {
+                writer.println(tarefa.getDescricao() + ";" + tarefa.getPrioridade());
             }
         } catch (IOException e) {
             System.err.println("Erro ao salvar tarefas concluídas: " + e.getMessage());
@@ -146,7 +152,10 @@ public class GerenciadorTarefas {
         try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_TAREFAS))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
-                tarefas.add(linha);
+                String[] partes = linha.split(";");
+                String descricao = partes[0];
+                int prioridade = Integer.parseInt(partes[1]);
+                tarefas.add(new Tarefa(descricao, prioridade));
             }
         } catch (IOException e) {
             System.err.println("Erro ao carregar tarefas: " + e.getMessage());
@@ -155,7 +164,10 @@ public class GerenciadorTarefas {
         try (BufferedReader reader = new BufferedReader(new FileReader(ARQUIVO_TAREFAS_CONCLUIDAS))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
-                tarefasConcluidas.add(linha);
+                String[] partes = linha.split(";");
+                String descricao = partes[0];
+                int prioridade = Integer.parseInt(partes[1]);
+                tarefasConcluidas.add(new Tarefa(descricao, prioridade));
             }
         } catch (IOException e) {
             System.err.println("Erro ao carregar tarefas concluídas: " + e.getMessage());
